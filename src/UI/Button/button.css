@@ -1,0 +1,39 @@
+.btn {
+  font-family: var(--fuenteHeading);
+  display: inline-block;
+  background-color: var(--primario);
+  color: var(--interfaceLight);
+  font-size: 18px;
+  border: none;
+  width: 100%;
+  border-radius: 16px;
+  text-align: center;
+  padding: 16px 32px;
+  transition: 0.3s all;
+  cursor: pointer;
+}
+.btnClaro{
+    font-family: var(--fuenteHeading);
+    display: inline-block;
+    background-color: var(--secundario);
+    color: var(--interfaceDark);
+    font-size: 18px;
+    border: none;
+    width: fit-content;
+    border-radius: 16px;
+    text-align: center;
+    padding: 14px 30px;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+.btnClaro.select{
+    display: inline-block;
+    background-color: transparent;
+    color: var(--resalto);
+    font-size: 18px;
+    border: var(--resalto) 2px solid;
+    border-radius: 16px;
+    text-align: center;
+    padding: 16px 32px;
+    transition: 0.3s all;
+}

@@ -1,0 +1,15 @@
+.contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 120px;
+    margin-bottom: 40px;
+  }
+  .icono {
+    display: flex;
+    gap: 16px;
+  }
+  div.icono h4,
+  div.icono p {
+    margin: 0;
+  }
