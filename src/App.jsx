@@ -38,7 +38,6 @@ function App() {
   }, [carrito]);
 
   const eliminarProductoCesta = (id) => {
-    console.log(id);
     const carritoActualizado = carrito.filter(
       (item) => item.producto_id !== id
     );
