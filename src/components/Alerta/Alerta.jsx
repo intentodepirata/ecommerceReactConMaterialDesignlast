@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
 const Alerta = ({ mensaje, alerta }) => {
-  console.log(alerta);
   return (
     <Box
       sx={{

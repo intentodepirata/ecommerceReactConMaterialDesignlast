@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import {
   Box,
@@ -11,19 +11,105 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const FormMarcas = ({ setFormMarcas, setFormModelos }) => {
+const FormMarcas = ({ setAlertaExito, setAlertaError, setAlertaMensaje }) => {
   const [marca, setMarca] = useState("");
   const [marcaId, setMarcaId] = useState("");
   const [modelo, setModelo] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [marcas, setMarcas] = useState([]);
+
+  useEffect(() => {
+    const fetchMarcas = async () => {
+      const response = await fetch("http://localhost:8000/api/v1/marca");
+      const data = await response.json();
+      setMarcas(data);
+    };
+    fetchMarcas();
+  }, [marcas.id, marca]);
+
+  const fetchMarca = async () => {
+    if (marca == "") {
+      setAlertaError(true);
+      setAlertaMensaje("Todos los campos son obligatorios");
+      setTimeout(() => {
+        setAlertaError(false);
+      }, 1500);
+      return;
+    }
+    const response = await fetch("http://localhost:8000/api/v1/marca", {
+      method: "POST",
+      body: JSON.stringify({ marca }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (data.error) {
+      setAlertaError(true);
+      setAlertaMensaje(data.message);
+      setTimeout(() => {
+        setAlertaError(false);
+      }, 2500);
+
+      return;
+    }
+    setAlertaExito(true);
+    setAlertaMensaje(data.message);
+    setTimeout(() => {
+      setAlertaExito(false);
+    }, 2500);
+
+    setMarca("");
+  };
 
   const handleMarca = (e) => {
     e.preventDefault();
-    setFormMarcas(marca);
+    fetchMarca();
   };
   const handleModelo = (e) => {
     e.preventDefault();
-    setFormModelos(modelo);
+    fetchModelo();
+  };
+
+  const fetchModelo = async () => {
+    // if (marca == "" || modelo == "" || marcaId == "") {
+    //   setAlertaError(true);
+    //   setAlertaMensaje("Todos los campos son obligatorios");
+    //   setTimeout(() => {
+    //     setAlertaError(false);
+    //   }, 1500);
+    //   return;
+    // }
+    const response = await fetch("http://localhost:8000/api/v1/modelo", {
+      method: "POST",
+      body: JSON.stringify({
+        modelo: modelo,
+        marcas_id: marcaId,
+        descripcion_modelo: descripcion,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (data.error) {
+      setAlertaError(true);
+      setAlertaMensaje(data.message);
+      setTimeout(() => {
+        setAlertaError(false);
+      }, 2500);
+
+      return;
+    }
+    setAlertaExito(true);
+    setAlertaMensaje(data.message);
+    setTimeout(() => {
+      setAlertaExito(false);
+    }, 2500);
+
+    setModelo("");
+    setDescripcion("");
+    setMarcaId("");
   };
 
   return (
@@ -80,9 +166,11 @@ const FormMarcas = ({ setFormMarcas, setFormModelos }) => {
               label="Seleccione una Marca"
               onChange={(e) => setMarcaId(e.target.value)}
             >
-              <MenuItem value={1}>Samsung</MenuItem>
-              <MenuItem value={2}>Huawei</MenuItem>
-              <MenuItem value={3}>Xiaomi</MenuItem>
+              {marcas.map((marca) => (
+                <MenuItem key={marca.id} value={marca.id}>
+                  {marca.marca}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <TextField

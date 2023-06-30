@@ -77,7 +77,7 @@ const Card = ({ producto, setCarrito, carrito }) => {
         },
       }}
     >
-      <Img src={imagen} alt="A12" />
+      <Img src={`/images/${imagen}`} alt="A12" />
 
       <Box sx={{ p: 2, backgroundColor: "var(--blanco)" }}>
         <Typography sx={{ pb: 2 }} variant="h5" component="h4">
